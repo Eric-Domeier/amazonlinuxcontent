@@ -1,0 +1,80 @@
+# platform = multi_platform_rhel,multi_platform_ol,multi_platform_sle,multi_platform_ubuntu,multi_platform_debian,multi_platform_fedora,multi_platform_almalinux,multi_platform_al
+# reboot = true
+# strategy = configure
+# complexity = low
+# disruption = low
+
+- name: Check if system uses UEFI
+  stat:
+    path: /sys/firmware/efi
+  register: uefi_check
+
+- name: Check if grubby is available
+  command: which grubby
+  register: grubby_check
+  failed_when: false
+  changed_when: false
+
+- name: Add audit=1 kernel argument using grubby (BIOS/UEFI with grubby)
+  command: grubby --update-kernel=ALL --args="audit=1"
+  when: grubby_check.rc == 0
+  register: grubby_result
+  changed_when: grubby_result.rc == 0
+
+- name: Check current kernel command line for audit parameter
+  command: cat /proc/cmdline
+  register: current_cmdline
+  changed_when: false
+  when: grubby_check.rc != 0
+
+- name: Ensure /etc/default/grub exists
+  stat:
+    path: /etc/default/grub
+  register: grub_default_check
+  when: grubby_check.rc != 0
+
+- name: Read current GRUB_CMDLINE_LINUX
+  shell: grep '^GRUB_CMDLINE_LINUX=' /etc/default/grub | cut -d'"' -f2
+  register: current_grub_cmdline
+  changed_when: false
+  when:
+    - grubby_check.rc != 0
+    - grub_default_check.stat.exists
+    - "'audit=1' not in current_cmdline.stdout"
+
+- name: Add audit=1 to GRUB_CMDLINE_LINUX
+  lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX='
+    line: 'GRUB_CMDLINE_LINUX="{{ current_grub_cmdline.stdout }} audit=1"'
+    backup: yes
+  when:
+    - grubby_check.rc != 0
+    - grub_default_check.stat.exists
+    - "'audit=1' not in current_cmdline.stdout"
+    - current_grub_cmdline.stdout is defined
+  register: grub_updated
+
+- name: Generate new GRUB configuration
+  command: grub2-mkconfig -o /boot/grub2/grub.cfg
+  when:
+    - grubby_check.rc != 0
+    - grub_updated is changed
+    - ansible_facts['os_family'] == "RedHat" or ansible_facts['os_family'] == "Amazon"
+  ignore_errors: yes
+
+- name: Generate new GRUB configuration (Debian/Ubuntu)
+  command: update-grub
+  when:
+    - grubby_check.rc != 0
+    - grub_updated is changed
+    - ansible_facts['os_family'] == "Debian"
+  ignore_errors: yes
+
+- name: Generate new GRUB configuration (SUSE)
+  command: grub2-mkconfig -o /boot/grub2/grub.cfg
+  when:
+    - grubby_check.rc != 0
+    - grub_updated is changed
+    - ansible_facts['os_family'] == "Suse"
+  ignore_errors: yes

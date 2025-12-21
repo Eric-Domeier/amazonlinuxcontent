@@ -1,4 +1,4 @@
-# platform = multi_platform_ol,Red Hat Virtualization 4
+# platform = multi_platform_ol,multi_platform_al,Red Hat Virtualization 4
 
 fips-mode-setup --enable
 FIPS_CONF="/etc/dracut.conf.d/40-fips.conf"
