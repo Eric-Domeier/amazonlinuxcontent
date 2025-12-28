@@ -3,8 +3,5 @@
 # strategy = enable
 # complexity = low
 # disruption = low
-- name: Ensure {{{ PKGNAME }}} is installed
-  ansible.builtin.package:
-    name: "{{{ PKGNAME }}}"
-    state: present
+{{{ ansible_package_install(PKGNAME) }}}
 
