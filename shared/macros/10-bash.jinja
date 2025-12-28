@@ -454,6 +454,9 @@ done
 
 #}}
 {{%- macro bash_package_install(package) -%}}
+{{%- if package in platform_package_overrides -%}}
+  {{%- set package = platform_package_overrides[package] -%}}
+{{%- endif -%}}
 {{%- if pkg_manager is defined -%}}
 {{%- if pkg_manager == "yum" or pkg_manager == "dnf" -%}}
 if ! rpm -q --quiet "{{{ package }}}" ; then
@@ -2031,6 +2034,8 @@ respects `platform_package_overrides` variable.
 {{%- if package in platform_package_overrides -%}}
   {{%- set package = platform_package_overrides[package] -%}}
 {{%- endif -%}}
+{{%- if package is none -%}}
+{{%- else -%}}
   {{% if pkg_system is defined %}}
     {{%- if pkg_system == "rpm" -%}}
         {{{ bash_pkg_conditional_rpm(package, op, ver) }}}
@@ -2040,6 +2045,7 @@ respects `platform_package_overrides` variable.
 JINJA MACRO ERROR - Unknown package system '{{{ pkg_system }}}'.
     {{%- endif -%}}
 {{% endif %}}
+{{%- endif -%}}
 {{%- endmacro -%}}
 
 

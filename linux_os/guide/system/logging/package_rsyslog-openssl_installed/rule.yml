@@ -1,0 +1,36 @@
+documentation_complete: true
+
+title: 'Ensure rsyslog-openssl is installed'
+
+description: |-
+    OpenSSL/TLS protocol support for rsyslog is installed.
+    {{{ describe_package_install(package="rsyslog-openssl") }}}
+
+rationale: |-
+    The rsyslog-openssl package provides OpenSSL/TLS support for the rsyslog daemon,
+    which enables secure remote logging and encryption of off-loaded audit logs.
+
+severity: medium
+
+identifiers:
+    cce@rhel8: CCE-82860-8
+    cce@rhel9: CCE-83988-6
+    cce@rhel10: CCE-89107-7
+
+references:
+    srg: SRG-OS-000120-GPOS-00061
+
+ocil_clause: 'the package is not installed'
+
+{{{ complete_ocil_entry_package(package="rsyslog-openssl") }}}
+
+template:
+    name: package_installed
+    vars:
+        pkgname: rsyslog-openssl
+
+fixtext: |-
+    {{{ describe_package_install(package="rsyslog-openssl") }}}
+
+srg_requirement:
+    {{{ full_name }}} must have the packages required for encrypting off-loaded audit logs installed.

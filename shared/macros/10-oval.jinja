@@ -815,6 +815,9 @@ Generates the :code:`<affected>` tag for OVAL check using correct product platfo
 
 #}}
 {{%- macro oval_test_package_installed(package='', evr='', evr_op='greater than or equal', test_id='') -%}}
+{{%- if package in platform_package_overrides -%}}
+  {{%- set package = platform_package_overrides[package] -%}}
+{{%- endif -%}}
 {{% if pkg_system == "rpm" %}}
   <linux:rpminfo_test check="all" check_existence="all_exist"
   id="{{{ test_id }}}" version="1"

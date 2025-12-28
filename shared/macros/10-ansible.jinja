@@ -2338,3 +2338,19 @@ Part of the grub2_bootloader_argument_absent template.
     ansible.builtin.shell: find /etc/rsyslog.d -type f -name "*.conf" -exec sed -i '/^{{{ start_pattern }}}/,/{{{ end_pattern }}}/d' {} +
     changed_when: true
 {{%- endmacro -%}}
+
+{{#
+Ansible task to install a package, with support for platform package overrides.
+
+:param package: name of the package
+:type package: str
+#}}
+{{%- macro ansible_package_install(package) -%}}
+{{%- if package in platform_package_overrides -%}}
+  {{%- set package = platform_package_overrides[package] -%}}
+{{%- endif -%}}
+- name: Ensure {{{ package }}} is installed
+  ansible.builtin.package:
+    name: "{{{ package }}}"
+    state: present
+{{%- endmacro -%}}
