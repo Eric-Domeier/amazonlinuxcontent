@@ -21,6 +21,7 @@ rules:
 - logwatch_configured_splithosts
 - package_logrotate_installed
 - package_rsyslog-gnutls_installed
+- package_rsyslog-openssl_installed
 - package_rsyslog_installed
 - package_syslogng_installed
 - package_systemd-journal-remote_installed
@@ -30,6 +31,7 @@ rules:
 - rsyslog_encrypt_offload_actionsendstreamdriverauthmode
 - rsyslog_encrypt_offload_actionsendstreamdrivermode
 - rsyslog_encrypt_offload_defaultnetstreamdriver
+- rsyslog_encrypt_offload_defaultnetstreamdriver_ossl
 - rsyslog_filecreatemode
 - rsyslog_files_groupownership
 - rsyslog_files_ownership

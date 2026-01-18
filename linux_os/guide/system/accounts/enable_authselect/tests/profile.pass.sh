@@ -1,5 +1,5 @@
 #!/bin/bash
-# platform = multi_platform_fedora,multi_platform_ol,multi_platform_rhel,multi_platform_almalinux
+# platform = multi_platform_fedora,multi_platform_ol,multi_platform_rhel,multi_platform_almalinux,multi_platform_al
 # packages = authselect,pam
 
 {{%- if ('rhel' in product or 'ol' in families or 'almalinux' in product) and product not in ['ol8', 'ol9', 'rhel8', 'rhel9', 'almalinux9']%}}
