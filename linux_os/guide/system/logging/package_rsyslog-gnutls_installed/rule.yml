@@ -1,4 +1,6 @@
-{{% if 'sle' not in product %}}
+{{% if 'amzn' in families %}}
+  {{%- set package = "rsyslog-openssl" %}}
+{{% elif 'sle' not in product %}}
   {{%- set package = "rsyslog-gnutls" %}}
 {{% else %}}
   {{%- set package = "rsyslog-module-gtls" %}}
@@ -10,7 +12,13 @@ title: 'Ensure {{{ package }}} is installed'
 
 description: |-
     TLS protocol support for rsyslog is installed.
-    {{{ describe_package_install(package=package) }}}
+    {{% if 'sle' not in product %}}
+    {{{ describe_package_install(package="rsyslog-gnutls") }}}
+    {{% elif 'amzn' in families %}}
+    {{{ describe_package_install(package="rsyslog-openssl") }}}
+    {{% else %}}
+    {{{ describe_package_install(package="rsyslog-module-gtls") }}}
+    {{% endif %}}
 
 
 rationale: |-
@@ -31,12 +39,21 @@ references:
     srg: SRG-OS-000480-GPOS-00227,SRG-OS-000120-GPOS-00061
     stigid@ol8: OL08-00-030680
 
-{{{ complete_ocil_entry_package_installed(package) }}}
+ocil_clause: 'the package is not installed'
+
+{{% if 'sle' not in product %}}
+{{{ complete_ocil_entry_package(package="rsyslog-gnutls") }}}
+{{% elif 'amzn' in families %}}
+{{{ complete_ocil_entry_package(package="rsyslog-openssl") }}}
+{{% else %}}
+{{{ complete_ocil_entry_package(package="rsyslog-module-gtls") }}}
+{{% endif %}}
 
 template:
     name: package_installed
     vars:
         pkgname: rsyslog-gnutls
+        pkgname@al2023: rsyslog-openssl
         pkgname@sle12: rsyslog-module-gtls
         pkgname@sle15: rsyslog-module-gtls
         pkgname@sle16: rsyslog-module-gtls
