@@ -319,7 +319,7 @@ MULTI_PLATFORM_MAPPING = {
     "multi_platform_tencentos": ["tencentos4"],
     "multi_platform_ubuntu": ["ubuntu2204", "ubuntu2404"],
     "multi_platform_openembedded": ["openembedded"],
-    "multi_platform_al": ["al2023"],
+    "multi_platform_amzn": ["al2023"],
 }
 
 RHEL_CENTOS_CPE_MAPPING = {

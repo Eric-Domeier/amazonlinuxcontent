@@ -17,7 +17,7 @@
 {{% set system_with_expanded_kernel_options_in_loader_entries = true %}}
 {{%- endif -%}}
 
-{{% if product in ["ol8", "rhel8"] -%}}
+{{% if product in ["ol8", "rhel8", "al2023"] -%}}
 {{% set system_with_expanded_kernel_options_in_loader_entries_or_with_options_in_grubenv = true -%}}
 {{%- endif -%}}
 
