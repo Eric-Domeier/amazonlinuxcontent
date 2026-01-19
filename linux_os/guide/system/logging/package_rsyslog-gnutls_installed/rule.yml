@@ -59,6 +59,13 @@ template:
         pkgname@sle16: rsyslog-module-gtls
 
 fixtext: |-
-    {{{ describe_package_install(package=package) }}}
+    {{% if 'sle' not in product %}}
+    {{{ describe_package_install(package="rsyslog-gnutls") }}}
+    {{% elif 'amzn' in families %}}
+    {{{ describe_package_install(package="rsyslog-openssl") }}}
+    {{% else %}}
+    {{{ describe_package_install(package="rsyslog-module-gtls") }}}
+    {{% endif %}}
+
 srg_requirement:
   {{{ full_name }}} must have the packages required for encrypting offloaded audit logs installed.
