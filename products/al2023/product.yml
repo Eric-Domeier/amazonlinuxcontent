@@ -35,6 +35,7 @@ cpes:
 
 platform_package_overrides:
   login_defs: "shadow-utils"
+  audit: "audit"
 
 reference_uris:
   cis: 'https://www.cisecurity.org/benchmark/amazon_linux/'
