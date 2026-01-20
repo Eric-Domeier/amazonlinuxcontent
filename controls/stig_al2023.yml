@@ -816,7 +816,7 @@ controls:
       audit records off-loaded onto a different system or media from the system
       being audited via rsyslog.
     rules:
-      - rsyslog_encrypt_offload_defaultnetstreamdriver
+      - rsyslog_encrypt_offload_defaultnetstreamdriver_ossl
     status: automated
 
   - id: AZLX-23-002080

@@ -30,6 +30,7 @@ rules:
 - rsyslog_encrypt_offload_actionsendstreamdriverauthmode
 - rsyslog_encrypt_offload_actionsendstreamdrivermode
 - rsyslog_encrypt_offload_defaultnetstreamdriver
+- rsyslog_encrypt_offload_defaultnetstreamdriver_ossl
 - rsyslog_filecreatemode
 - rsyslog_files_groupownership
 - rsyslog_files_ownership
