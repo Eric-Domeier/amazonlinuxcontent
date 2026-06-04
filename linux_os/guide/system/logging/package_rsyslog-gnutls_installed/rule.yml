@@ -42,11 +42,11 @@ references:
 ocil_clause: 'the package is not installed'
 
 {{% if 'sle' not in product %}}
-{{{ complete_ocil_entry_package(package="rsyslog-gnutls") }}}
+{{{ complete_ocil_entry_package_installed(package="rsyslog-gnutls") }}}
 {{% elif 'amzn' in families %}}
-{{{ complete_ocil_entry_package(package="rsyslog-openssl") }}}
+{{{ complete_ocil_entry_package_installed(package="rsyslog-openssl") }}}
 {{% else %}}
-{{{ complete_ocil_entry_package(package="rsyslog-module-gtls") }}}
+{{{ complete_ocil_entry_package_installed(package="rsyslog-module-gtls") }}}
 {{% endif %}}
 
 template:
