@@ -55,4 +55,6 @@ selections:
     - grub2_audit_argument
     - file_permissions_var_log_audit
     - rsyslog_logging_configured
-    
+    # Variable refine-values
+    - sshd_approved_macs=stig_al2023
+
